@@ -39,6 +39,14 @@ public class Resource {
 	public List<UserEntity> listUsers() {
 		return userEntityManager.listUsers();
 	}
+	
+	@GET
+	@Path("user/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public UserEntity getUser(@PathParam("id") int id) {
+		return userEntityManager.getUser(id);
+	}
 
 	@POST
 	@Path("user/{name}")
@@ -74,6 +82,14 @@ public class Resource {
 		return roleEntityManager.listRoles();
 	}
 
+	@GET
+	@Path("role/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public RoleEntity getRole(@PathParam("id") int id) {
+		return roleEntityManager.getRole(id);
+	}
+	
 	@POST
 	@Path("role/{name}")
 	@Produces(MediaType.APPLICATION_JSON)

@@ -15,7 +15,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "TM_USERS")
-@NamedQuery(name = "UserEntity.findAll", query = "SELECT u FROM UserEntity u")
 public class UserEntity implements Serializable {
 
 	/**
@@ -25,18 +24,21 @@ public class UserEntity implements Serializable {
 
 	@Id
 	@Basic(optional = false)
-	@NotNull
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "user_seq")
+	@SequenceGenerator(name = "user_seq", sequenceName = "SEQ_GEN", allocationSize = 1)
 	@Column(name = "ID")
 	private int id;
 
 	@Basic(optional = false)
-	@NotNull
 	@Size(max = 100)
 	@Column(name = "NAME")
 	private String name;
 
-	@OneToMany()
+	@ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(name="TM_USERS_TM_ROLES",
+        joinColumns = {@JoinColumn(name="USER_ID", referencedColumnName="ID")},
+        inverseJoinColumns = {@JoinColumn(name="ROLE_ID", referencedColumnName="ID")}
+    )
 	private List<RoleEntity> roleList;
 
 	public UserEntity() {
@@ -130,7 +132,9 @@ public class UserEntity implements Serializable {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

@@ -4,6 +4,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 public class RoleEntityManager {
 
@@ -22,12 +26,16 @@ public class RoleEntityManager {
 		return roleEntity;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<RoleEntity> listRoles() {
 		List<RoleEntity> roleEntitys = null;
 		try {
 			entityManager.getTransaction().begin();
-			roleEntitys = (List<RoleEntity>) entityManager.createNamedQuery("RoleEntity.findAll").getResultList();
+			CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+			CriteriaQuery<RoleEntity> cq = cb.createQuery(RoleEntity.class);
+			Root<RoleEntity> rootRoles = cq.from(RoleEntity.class);
+			CriteriaQuery<RoleEntity> cqRoles = cq.select(rootRoles);
+			TypedQuery<RoleEntity> tq = entityManager.createQuery(cqRoles);
+			roleEntitys = tq.getResultList();
 			Iterator<RoleEntity> iterator = roleEntitys.iterator();
 			while (iterator.hasNext()) {
 				RoleEntity roleEntity = (RoleEntity) iterator.next();
@@ -38,6 +46,18 @@ public class RoleEntityManager {
 			entityManager.getTransaction().rollback();
 		}
 		return roleEntitys;
+	}
+
+	public RoleEntity getRole(int id) {
+		RoleEntity roleEntity = null;
+		try {
+			entityManager.getTransaction().begin();
+			roleEntity = (RoleEntity) entityManager.find(RoleEntity.class, id);
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+		}
+		return roleEntity;
 	}
 
 	public RoleEntity updateRole(int id, String name) {

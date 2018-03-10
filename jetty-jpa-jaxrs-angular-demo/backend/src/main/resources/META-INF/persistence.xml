@@ -7,13 +7,18 @@
 		<class>jettyjersey.jpa.UserEntity</class>
 		<class>jettyjersey.jpa.RoleEntity</class>
 		<properties>
-			<!-- http://wiki.eclipse.org/EclipseLink/Examples/JPA/DDL -->
+			<!-- http://wiki.eclipse.org/EclipseLink/Examples/JPA/DDL -->			
 			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test" />
 			<property name="javax.persistence.jdbc.user" value="sa" />
-			<property name="javax.persistence.jdbc.password" value="" />
-			<property name="eclipselink.ddl-generation" value="create-tables" />
+			<property name="javax.persistence.jdbc.password" value="" />			
+			<property name="javax.persistence.schema-generation.database.action" value="create"/>
+      		<property name="javax.persistence.sql-load-script-source" value="META-INF/sql/load_script.sql"/>
+			<!-- 
+			<property name="eclipselink.ddl-generation" value="create-tables" />			
 			<property name="eclipselink.ddl-generation.output-mode"	value="database" />
+			 -->
+			<property name="eclipselink.logging.level" value="FINE"/>
 		</properties>
 	</persistence-unit>
 </persistence>

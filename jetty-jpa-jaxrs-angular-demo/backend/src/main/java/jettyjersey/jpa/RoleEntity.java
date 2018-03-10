@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "TM_ROLES")
-@NamedQuery(name = "RoleEntity.findAll", query = "SELECT r FROM RoleEntity r")
 public class RoleEntity implements Serializable {
 
 	/**
@@ -23,7 +22,8 @@ public class RoleEntity implements Serializable {
 	@Id
 	@Basic(optional = false)
 	@NotNull
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "role_seq")
+	@SequenceGenerator(name = "role_seq", sequenceName = "SEQ_GEN", allocationSize = 1)
 	@Column(name = "ID")
 	private int id;
 

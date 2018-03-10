@@ -4,6 +4,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 public class UserEntityManager {
 
@@ -22,12 +26,16 @@ public class UserEntityManager {
 		return userEntity;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<UserEntity> listUsers() {
 		List<UserEntity> userEntitys = null;
 		try {
 			entityManager.getTransaction().begin();
-			userEntitys = (List<UserEntity>) entityManager.createNamedQuery("UserEntity.findAll").getResultList();
+			CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+			CriteriaQuery<UserEntity> cq = cb.createQuery(UserEntity.class);
+			Root<UserEntity> rootUsers = cq.from(UserEntity.class);
+			CriteriaQuery<UserEntity> cqRoles = cq.select(rootUsers);
+			TypedQuery<UserEntity> tq = entityManager.createQuery(cqRoles);
+			userEntitys = tq.getResultList();
 			Iterator<UserEntity> iterator = userEntitys.iterator();
 			while (iterator.hasNext()) {
 				UserEntity userEntity = (UserEntity) iterator.next();
@@ -38,6 +46,18 @@ public class UserEntityManager {
 			entityManager.getTransaction().rollback();
 		}
 		return userEntitys;
+	}
+
+	public UserEntity getUser(int id) {
+		UserEntity userEntity = null;
+		try {
+			entityManager.getTransaction().begin();
+			userEntity = (UserEntity) entityManager.find(UserEntity.class, id);
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+		}
+		return userEntity;
 	}
 
 	public UserEntity updateUser(int id, String name) {
