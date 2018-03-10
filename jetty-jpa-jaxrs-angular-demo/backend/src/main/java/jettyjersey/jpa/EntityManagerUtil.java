@@ -10,7 +10,7 @@ public class EntityManagerUtil {
 	
 	static {
 		try {
-			entityManagerFactory = Persistence.createEntityManagerFactory("test-jetty-jndi");
+			entityManagerFactory = Persistence.createEntityManagerFactory("jetty-jpa-jaxrs-angular-demo");
 		} catch (Throwable ex) {
 			System.err.println("Initial SessionFactory creation failed." + ex);
 			throw new ExceptionInInitializerError(ex);

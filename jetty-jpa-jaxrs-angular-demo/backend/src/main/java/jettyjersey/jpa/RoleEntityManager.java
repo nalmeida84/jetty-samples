@@ -5,59 +5,59 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-public class UserEntityManager {
+public class RoleEntityManager {
 
 	private EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
-	public UserEntity saveUser(String name) {
-		UserEntity userEntity = new UserEntity();
+	public RoleEntity saveRole(String name) {
+		RoleEntity roleEntity = new RoleEntity();
 		try {
 			entityManager.getTransaction().begin();
-			userEntity.setName(name);
-			userEntity = entityManager.merge(userEntity);
+			roleEntity.setName(name);
+			roleEntity = entityManager.merge(roleEntity);
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
 		}
-		return userEntity;
+		return roleEntity;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<UserEntity> listUsers() {
-		List<UserEntity> userEntitys = null;
+	public List<RoleEntity> listRoles() {
+		List<RoleEntity> roleEntitys = null;
 		try {
 			entityManager.getTransaction().begin();
-			userEntitys = (List<UserEntity>) entityManager.createNamedQuery("UserEntity.findAll").getResultList();
-			Iterator<UserEntity> iterator = userEntitys.iterator();
+			roleEntitys = (List<RoleEntity>) entityManager.createNamedQuery("RoleEntity.findAll").getResultList();
+			Iterator<RoleEntity> iterator = roleEntitys.iterator();
 			while (iterator.hasNext()) {
-				UserEntity userEntity = (UserEntity) iterator.next();
-				System.out.println(userEntity.getName());
+				RoleEntity roleEntity = (RoleEntity) iterator.next();
+				System.out.println(roleEntity.getName());
 			}
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
 		}
-		return userEntitys;
+		return roleEntitys;
 	}
 
-	public UserEntity updateUser(int id, String name) {
-		UserEntity userEntity = null;
+	public RoleEntity updateRole(int id, String name) {
+		RoleEntity roleEntity = null;
 		try {
 			entityManager.getTransaction().begin();
-			userEntity = (UserEntity) entityManager.find(UserEntity.class, id);
-			userEntity.setName(name);
+			roleEntity = (RoleEntity) entityManager.find(RoleEntity.class, id);
+			roleEntity.setName(name);
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
 		}
-		return userEntity;
+		return roleEntity;
 	}
 
-	public void deleteUser(int id) {
+	public void deleteRole(int id) {
 		try {
 			entityManager.getTransaction().begin();
-			UserEntity userEntity = (UserEntity) entityManager.find(UserEntity.class, id);
-			entityManager.remove(userEntity);
+			RoleEntity roleEntity = (RoleEntity) entityManager.find(RoleEntity.class, id);
+			entityManager.remove(roleEntity);
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
