@@ -27,6 +27,21 @@
 		<sourceDirectory>backend/src/main/java</sourceDirectory>
 
 		<plugins>
+			<!-- Maven resources plugin: copia los recursos en ruta no estandar -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.2</version>
+				<configuration>
+					<resources>
+						<!-- this is relative to the pom.xml directory -->
+						<resource>
+							<directory>backend/src/main/resources</directory>
+						</resource>
+					</resources>
+				</configuration>
+			</plugin>
+
 			<!-- Maven WAR plugin: genera el WAR -->
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
@@ -35,8 +50,11 @@
 					<!-- Java EE doesn't require web.xml, Maven needs to catch up! -->
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 					<webResources>
+						<!-- this is relative to the pom.xml directory -->
 						<resource>
-							<!-- this is relative to the pom.xml directory -->
+							<directory>backend/src/main/webapp</directory>
+						</resource>
+						<resource>
 							<directory>frontend/app</directory>
 						</resource>
 					</webResources>
@@ -51,10 +69,10 @@
 				<configuration>
 					<scanIntervalSeconds>10</scanIntervalSeconds>
 					<httpConnector>
-          				<!--host>localhost</host-->
-          				<port>4040</port>
-          				<idleTimeout>60000</idleTimeout>
-       				</httpConnector>
+						<!--host>localhost</host -->
+						<port>4040</port>
+						<idleTimeout>60000</idleTimeout>
+					</httpConnector>
 					<war>${project.basedir}/target/${project.artifactId}.war</war>
 				</configuration>
 			</plugin>

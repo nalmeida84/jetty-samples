@@ -16,27 +16,23 @@ import jettyjersey.jpa.RoleEntityManager;
 import jettyjersey.jpa.UserEntity;
 import jettyjersey.jpa.UserEntityManager;
 
-@Path("/rest")
+@Path("/")
 public class Resource {
-
-	// https://www.acando.no/thedailypassion/200555/a-rest-service-with-jetty-and-jersey
-	// https://www.javatips.net/blog/hibernate-jpa-with-h2-database
-	// https://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.jpt.doc.user%2Ftask_create_new_project.htm
-
-	UserEntityManager userEntityManager = new UserEntityManager();
-	RoleEntityManager roleEntityManager = new RoleEntityManager();
+	
+	private UserEntityManager userEntityManager = new UserEntityManager();
+	private RoleEntityManager roleEntityManager = new RoleEntityManager();
 
 	@GET
 	@Path("hello")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_HTML)
 	public String helloWorld() {
-		return "Hello, world!";
+		return "<h2>Hello, world!</h2>";
 	}
 
 	/**
 	 * Users resources
 	 **/
-	
+
 	@GET
 	@Path("users")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -51,7 +47,7 @@ public class Resource {
 	public UserEntity createUser(@PathParam("name") String name) {
 		return userEntityManager.saveUser(name);
 	}
-	
+
 	@POST
 	@Path("user/{id}/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -59,9 +55,9 @@ public class Resource {
 	public UserEntity updateUser(@PathParam("id") int id, @PathParam("name") String name) {
 		return userEntityManager.updateUser(id, name);
 	}
-	
+
 	@DELETE
-	@Path("role/{id}")
+	@Path("user/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void deleteUser(@PathParam("id") int id) {
 		userEntityManager.deleteUser(id);
@@ -70,7 +66,7 @@ public class Resource {
 	/**
 	 * Roles resources
 	 **/
-	
+
 	@GET
 	@Path("roles")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -93,7 +89,7 @@ public class Resource {
 	public RoleEntity updateRole(@PathParam("id") int id, @PathParam("name") String name) {
 		return roleEntityManager.updateRole(id, name);
 	}
-	
+
 	@DELETE
 	@Path("role/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
