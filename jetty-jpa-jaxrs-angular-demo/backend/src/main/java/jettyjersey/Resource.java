@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -57,13 +58,39 @@ public class Resource {
 	}
 
 	@POST
+	@Path("user/{name}/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public UserEntity createUserRole(@PathParam("name") String name, @PathParam("id") int id) {
+		return userEntityManager.saveUser(name, id);
+	}
+	
+	@PATCH
 	@Path("user/{id}/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public UserEntity updateUser(@PathParam("id") int id, @PathParam("name") String name) {
 		return userEntityManager.updateUser(id, name);
 	}
+	
+	@PATCH
+	@Path("user/{userId}/role/{roleId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public UserEntity addUserRole(@PathParam("userId") int userId, @PathParam("roleId") String roleId) {		
+		//return userEntityManager.addUserRole(userId, roleId);
+		return null;
+	}
 
+	@DELETE
+	@Path("user/{userId}/role/{roleId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public UserEntity deleteUserRole(@PathParam("userId") int userId, @PathParam("roleId") String roleId) {		
+		//return userEntityManager.deleteUserRole(userId, roleId);
+		return null;
+	}
+	
 	@DELETE
 	@Path("user/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -98,7 +125,7 @@ public class Resource {
 		return roleEntityManager.saveRole(name);
 	}
 
-	@POST
+	@PATCH
 	@Path("role/{id}/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)

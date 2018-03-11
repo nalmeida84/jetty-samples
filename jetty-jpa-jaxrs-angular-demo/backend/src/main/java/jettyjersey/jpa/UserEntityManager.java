@@ -14,10 +14,18 @@ public class UserEntityManager {
 	private EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
 	public UserEntity saveUser(String name) {
+		return this.saveUser(name, 1);
+	}
+
+	public UserEntity saveUser(String name, int roleId) {
 		UserEntity userEntity = new UserEntity();
+		RoleEntity roleEntity = null;
 		try {
 			entityManager.getTransaction().begin();
+			roleEntity = (RoleEntity) entityManager.find(RoleEntity.class, roleId);
+			System.out.println(roleEntity.getName());
 			userEntity.setName(name);
+			userEntity.addRole(roleEntity);
 			userEntity = entityManager.merge(userEntity);
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {

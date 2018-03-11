@@ -1,0 +1,15 @@
+@charset "utf-8";
+
+/* Horizontal list with bullets */
+.hlist li {
+	display:inline-block;
+}
+.hlist li:before {
+	content: '\00a0\2022\00a0';
+    color:rgba(0,0,0,0.5);
+}
+
+ol.hlist {
+	margin: 0;
+  	padding: 0;
+}
