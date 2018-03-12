@@ -22,25 +22,29 @@ public class App {
 		ServletContextHandler context = new ServletContextHandler(server, "/*");
 		context.addServlet(servlet, "/*");
 
-		// Create the ResourceHandler. It is the object that will actually handle the request for a given file. It is
-    // a Jetty Handler object so it is suitable for chaining with other handlers as you will see in other examples.
-    ResourceHandler resource_handler = new ResourceHandler();
+		// Create the ResourceHandler. It is the object that will actually handle the
+		// request for a given file. It is
+		// a Jetty Handler object so it is suitable for chaining with other handlers as
+		// you will see in other examples.
+		ResourceHandler resource_handler = new ResourceHandler();
 
-    // Configure the ResourceHandler. Setting the resource base indicates where the files should be served out of.
-    // In this example it is the current directory but it can be configured to anything that the jvm has access to.
-    resource_handler.setDirectoriesListed(true);
-    resource_handler.setWelcomeFiles(new String[]{ "index.html" });
-    resource_handler.setResourceBase("frontend/app");
+		// Configure the ResourceHandler. Setting the resource base indicates where the
+		// files should be served out of.
+		// In this example it is the current directory but it can be configured to
+		// anything that the jvm has access to.
+		resource_handler.setDirectoriesListed(true);
+		resource_handler.setWelcomeFiles(new String[] { "index.html" });
+		resource_handler.setResourceBase("frontend/app");
 
-    // Add the ResourceHandler to the server.
-    HandlerList handlers = new HandlerList();
-    handlers.setHandlers(new Handler[] { resource_handler, new DefaultHandler() });
-    server.setHandler(handlers);
-		
+		// Add the ResourceHandler to the server.
+		HandlerList handlers = new HandlerList();
+		handlers.setHandlers(new Handler[] { resource_handler, new DefaultHandler() });
+		server.setHandler(handlers);
+
 		try {
 			server.start();
-			server.join();			
-		} catch (Exception e) {			
+			server.join();
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			server.destroy();

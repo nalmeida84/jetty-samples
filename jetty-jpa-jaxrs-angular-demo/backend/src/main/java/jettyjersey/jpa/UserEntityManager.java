@@ -1,6 +1,5 @@
 package jettyjersey.jpa;
 
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -44,11 +43,6 @@ public class UserEntityManager {
 			CriteriaQuery<UserEntity> cqRoles = cq.select(rootUsers);
 			TypedQuery<UserEntity> tq = entityManager.createQuery(cqRoles);
 			userEntitys = tq.getResultList();
-			Iterator<UserEntity> iterator = userEntitys.iterator();
-			while (iterator.hasNext()) {
-				UserEntity userEntity = (UserEntity) iterator.next();
-				System.out.println(userEntity.getName());
-			}
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();

@@ -17,7 +17,7 @@ services.factory('HelloFactory', function($http) {
 });
 
 services.factory('UsersFactory', function($resource) {
-	return	$resource(baseUrl + '/rest/users', {}, {
+	return $resource(baseUrl + '/rest/users', {}, {
 		listUsers : {
 			method : 'GET',
 			isArray : true
@@ -25,34 +25,22 @@ services.factory('UsersFactory', function($resource) {
 	})
 });
 
-services.factory('UserFactory', function ($resource) { 
-	return $resource(baseUrl + '/rest/user/:id', {}, { 
-			getUser: { method: 'GET' },
-			createUser: { method: 'POST', params: {name: '@name'} },
-			updateUser: { method: 'PATCH', params: {id: '@id'} }, 
-			deleteUser: { method: 'DELETE', params: {id: '@id'} } 
-	}) 
+services.factory('UserFactory', function($resource) {
+	return $resource(baseUrl + '/rest/user/:id', {}, {
+		getUser : {
+			method : 'GET'
+		},
+		createUser : {
+			method : 'POST',
+			params : {
+				name : '@name'
+			}
+		},
+		deleteUser : {
+			method : 'DELETE',
+			params : {
+				id : '@id'
+			}
+		}
+	})
 });
-
-
-
-
-//createUserRole: { method: 'POST', params: {name: '@name', id: '@id'} },
-//updateUser: { method: 'PATCH', params: {id: '@id', name: '@name'} },
-//addUserRole { method: 'PATCH', params: {userId: '@userId', roleId: '@roleId'} }
-
-/*
- * services.factory('HelloService', function ($resource) { return
- * $resource(baseUrl + '/rest/hello', {}, { query: { method: 'GET', params: {} } })
- * });
- * 
- * 
- * services.factory('UsersService', function ($resource) { return
- * $resource(baseUrl + '/rest/users', {}, { query: { method: 'GET', isArray:
- * true }, create: { method: 'POST' } }) });
- * 
- * services.factory('UserService', function ($resource) { return
- * $resource(baseUrl + '/rest/user/:id', {}, { show: { method: 'GET' }, update: {
- * method: 'PUT', params: {id: '@id'} }, delete: { method: 'DELETE', params:
- * {id: '@id'} } }) });
- */

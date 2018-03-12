@@ -1,12 +1,20 @@
 package jettyjersey.jpa;
 
 import java.io.Serializable;
-import java.lang.String;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 /**
@@ -34,11 +42,10 @@ public class UserEntity implements Serializable {
 	@Column(name = "NAME")
 	private String name;
 
-	@ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(name="TM_USERS_TM_ROLES",
-        joinColumns = {@JoinColumn(name="USER_ID", referencedColumnName="ID")},
-        inverseJoinColumns = {@JoinColumn(name="ROLE_ID", referencedColumnName="ID")}
-    )
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "TM_USERS_TM_ROLES", joinColumns = {
+			@JoinColumn(name = "USER_ID", referencedColumnName = "ID") }, inverseJoinColumns = {
+					@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID") })
 	private List<RoleEntity> roleList;
 
 	public UserEntity() {
